@@ -35,6 +35,10 @@ You can combine both
 	  value.squish
 	end
 
+The `squish` method is the default normalizer. All you need to is specify the attribute:
+
+	normalize_attribute :content
+
 The `normalize_attributes` method is aliased as `normalize_attribute`, `normalize_attr` and `normalize_attrs`.
 
 To-Do

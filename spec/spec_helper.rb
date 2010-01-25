@@ -16,6 +16,7 @@ load File.dirname(__FILE__) + "/schema.rb"
 
 # Load resources
 require File.dirname(__FILE__) + "/resources/user"
+require File.dirname(__FILE__) + "/resources/token"
 
 # Create an alias for lambda
 alias :doing :lambda

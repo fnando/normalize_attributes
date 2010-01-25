@@ -7,9 +7,12 @@ module SimplesIdeias
         args.each do |attr_name|
           attr_name = attr_name.to_sym
 
-          self.normalize_attributes_options[attr_name] ||= []
-          self.normalize_attributes_options[attr_name] << options[:with] if options[:with]
-          self.normalize_attributes_options[attr_name] << block if block_given?
+          self.normalize_attributes_options[self.name] ||= {}
+          self.normalize_attributes_options[self.name].tap do |o|
+            o[attr_name] ||= []
+            o[attr_name] << options[:with] if options[:with]
+            o[attr_name] << block if block_given?
+          end
         end
       end
 
@@ -21,10 +24,14 @@ module SimplesIdeias
     module InstanceMethods
       private
         def normalize_attributes
-          self.class.normalize_attributes_options.each do |attr_name, methods|
-            value = send(attr_name)
+          options = self.class.normalize_attributes_options[self.class.name] || {}
 
-            [methods].flatten.each do |method|
+          options.each do |attr_name, normalizers|
+            value = self.send(attr_name)
+
+            normalizers << :squish if normalizers.empty? && value.kind_of?(String)
+
+            [normalizers].flatten.each do |method|
               if method.respond_to?(:call)
                 value = method.call(value)
               else
