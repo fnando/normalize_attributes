@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "lib/normalize_attributes.rb",
      "lib/normalize_attributes/active_record.rb",
      "lib/normalize_attributes/version.rb",
+     "normalize_attributes.gemspec",
      "spec/normalize_attributes_spec.rb",
      "spec/schema.rb",
      "spec/spec_helper.rb",
