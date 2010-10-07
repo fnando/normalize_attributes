@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/spec_helper"
+require "spec_helper"
 
 describe "Normalize Attributes" do
   before do
@@ -45,22 +45,30 @@ describe "Normalize Attributes" do
     User.normalize_attributes :email, :with => :downcase
     user = User.create(:email => "JOHN@DOE.COM", :username => "JOHN")
 
-    doing {
+    expect {
       user.tokens.create!
-    }.should_not raise_error
+    }.to_not raise_error
   end
 
-  it "should apply default filter" do
+  it "should apply default filter on strings" do
     User.normalize_attributes :email
     user = User.create(:email => "    \n\t    john@doe.com    \t\t\n\r\n", :username => "john")
 
     user.email.should == "john@doe.com"
   end
 
-  it "should not apply default filter on non-string objects" do
-    User.normalize_attributes :username, :with => proc {|v| v * 2 }
-    user = User.create(:username => 100)
+  it "should apply default filter on arrays" do
+    User.normalize_attributes :preferences
+    user = User.create(:preferences => [nil, :games, :music])
+    user.preferences.should == [:games, :music]
+  end
 
-    user.username.should == 200
+  it "should not apply default filter on unknown objects" do
+    User.normalize_attributes :username
+
+    expect {
+      user = User.create(:username => 100)
+      user.username.should == 100
+    }.to_not raise_error
   end
 end
