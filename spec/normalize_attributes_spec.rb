@@ -5,6 +5,13 @@ describe "Normalize Attributes" do
     User.normalize_attributes_options = {}
   end
 
+  it "should respond to aliases" do
+    User.should respond_to(:normalize)
+    User.should respond_to(:normalize_attrs)
+    User.should respond_to(:normalize_attr)
+    User.should respond_to(:normalize_attribute)
+  end
+
   it "should apply single normalization method" do
     User.normalize_attribute :email, :with => :downcase
     user = User.create(:email => "JOHN@DOE.COM")

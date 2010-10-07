@@ -43,7 +43,7 @@ The <tt>compact</tt> method is the default normalizer for arrays (when using <tt
     normalize_attribute :preferences
   end
 
-The <tt>normalize_attributes</tt> method is aliased as <tt>normalize_attribute</tt>, <tt>normalize_attr</tt>, and <tt>normalize_attrs</tt>.
+The <tt>normalize_attributes</tt> method is aliased as <tt>normalize</tt>, <tt>normalize_attribute</tt>, <tt>normalize_attr</tt>, and <tt>normalize_attrs</tt>.
 
 == Maintainer
 

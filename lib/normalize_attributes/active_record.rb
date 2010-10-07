@@ -28,6 +28,7 @@ module NormalizeAttributes
         end
       end
 
+      alias_method :normalize, :normalize_attributes
       alias_method :normalize_attribute, :normalize_attributes
       alias_method :normalize_attr, :normalize_attributes
       alias_method :normalize_attrs, :normalize_attributes
@@ -53,7 +54,7 @@ module NormalizeAttributes
           [normalizers].flatten.each do |normalizer|
             if normalizer.respond_to?(:call)
               value = normalizer.call(value)
-            else
+            elsif value.respond_to?(normalizer)
               value = value.send(normalizer)
             end
           end
