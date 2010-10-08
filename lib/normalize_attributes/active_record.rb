@@ -1,20 +1,20 @@
 module NormalizeAttributes
   module ActiveRecord
     def self.included(base)
-      class << base
-        attr_accessor :normalize_attributes_options
-      end
-
       base.instance_eval do
         extend ClassMethods
         include InstanceMethods
         before_save :normalize_attributes
-        self.normalize_attributes_options = {}
+
+        class << self
+          attr_accessor :normalize_attributes_options
+        end
       end
     end
 
     module ClassMethods
       def normalize_attributes(*args, &block)
+        self.normalize_attributes_options ||= {}
         options = args.extract_options!
 
         args.each do |attr_name|
