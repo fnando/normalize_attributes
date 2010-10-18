@@ -4,7 +4,7 @@ module NormalizeAttributes
       base.instance_eval do
         extend ClassMethods
         include InstanceMethods
-        before_save :normalize_attributes
+        before_validation :normalize_attributes
 
         class << self
           attr_accessor :normalize_attributes_options
