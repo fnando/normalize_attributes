@@ -33,6 +33,23 @@ describe "Normalize Attributes" do
     user.email.should == "john@doe.com"
   end
 
+  it "should apply instance method" do
+    User.normalize_attribute(:username, :with => :normalize_username)
+    user = User.create(:username => "JOHNDOE")
+
+    user.username.should == "johndoe"
+  end
+
+  it "should use value before type casting" do
+    User.normalize_attribute(:age) do |v|
+      v.should == "1.2"
+      v.to_f * 10
+    end
+
+    user = User.create(:age => "1.2")
+    user.age.should == 12
+  end
+
   it "should combine both method names and procs as normalization methods" do
     User.normalize_attribute(:email, :with => :downcase) {|v| v.reverse }
     user = User.create(:email => "JOHN@DOE.COM")

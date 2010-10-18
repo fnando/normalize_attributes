@@ -40,7 +40,7 @@ module NormalizeAttributes
         options = self.class.normalize_attributes_options || {}
 
         options.each do |attr_name, normalizers|
-          value = self.send(attr_name)
+          value = self.send("#{attr_name}_before_type_cast")
 
           if normalizers.empty?
             case value
@@ -56,6 +56,8 @@ module NormalizeAttributes
               value = normalizer.call(value)
             elsif value.respond_to?(normalizer)
               value = value.send(normalizer)
+            else
+              value = send(normalizer, value)
             end
           end
 
