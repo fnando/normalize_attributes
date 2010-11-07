@@ -11,39 +11,46 @@ To install:
 Then on your model:
 
   class User < ActiveRecord::Base
-    normalize_attribute :email, :with => :downcase
+    normalize :email, :with => :downcase
   end
 
 The example above will normalize your <tt>:email</tt> attribute on the <tt>before_save</tt> callback.
 
 You can specify multiple attributes
 
-  normalize_attributes :email, :username, :with => :downcase
+  normalize :email, :username, :with => :downcase
 
 You can use a block
 
-  normalize_attribute :name do |value|
+  normalize :name do |value|
     value.squish
   end
 
 You can combine both
 
-  normalize_attribute :name, :with => :downcase do |value|
+  normalize :name, :with => :downcase do |value|
     value.squish
   end
 
 The <tt>squish</tt> method is the default normalizer for strings. All you need to is specify the attribute:
 
-  normalize_attribute :content
+  normalize :content
 
 The <tt>compact</tt> method is the default normalizer for arrays (when using <tt>serialize</tt> method):
 
   class User < ActiveRecord::Base
     serialize :preferences, Array
-    normalize_attribute :preferences
+    normalize :preferences
   end
 
-The <tt>normalize_attributes</tt> method is aliased as <tt>normalize</tt>, <tt>normalize_attribute</tt>, <tt>normalize_attr</tt>, and <tt>normalize_attrs</tt>.
+The <tt>normalize</tt> method is aliased as <tt>normalize_attributes</tt>, <tt>normalize_attribute</tt>, <tt>normalize_attr</tt>, and <tt>normalize_attrs</tt>.
+
+You can normalize the attribute before type casting; this is specially useful for normalizing
+dates and numbers.
+
+  class Product
+    normalize(:price, :raw => true) {|v| Money.new(v).to_f}
+  end
 
 == Maintainer
 

@@ -2,46 +2,47 @@ require "spec_helper"
 
 describe "Normalize Attributes" do
   before do
-    User.normalize_attributes_options = {}
+    User.normalize_options = {}
   end
 
   it "should respond to aliases" do
     User.should respond_to(:normalize)
-    User.should respond_to(:normalize_attrs)
     User.should respond_to(:normalize_attr)
+    User.should respond_to(:normalize_attrs)
     User.should respond_to(:normalize_attribute)
+    User.should respond_to(:normalize_attributes)
   end
 
   it "should apply single normalization method" do
-    User.normalize_attribute :email, :with => :downcase
+    User.normalize :email, :with => :downcase
     user = User.create(:email => "JOHN@DOE.COM")
 
     user.email.should == "john@doe.com"
   end
 
   it "should apply multiple normalization methods" do
-    User.normalize_attribute :email, :with => [:downcase, :reverse]
+    User.normalize :email, :with => [:downcase, :reverse]
     user = User.create(:email => "JOHN@DOE.COM")
 
     user.email.should == "moc.eod@nhoj"
   end
 
   it "should apply proc" do
-    User.normalize_attribute(:email) {|v| v.downcase }
+    User.normalize(:email) {|v| v.downcase }
     user = User.create(:email => "JOHN@DOE.COM")
 
     user.email.should == "john@doe.com"
   end
 
   it "should apply instance method" do
-    User.normalize_attribute(:username, :with => :normalize_username)
+    User.normalize(:username, :with => :normalize_username)
     user = User.create(:username => "JOHNDOE")
 
     user.username.should == "johndoe"
   end
 
   it "should use value before type casting" do
-    User.normalize_attribute(:age) do |v|
+    User.normalize(:age, :raw => true) do |v|
       v.should == "1.2"
       v.to_f * 10
     end
@@ -50,15 +51,19 @@ describe "Normalize Attributes" do
     user.age.should == 12
   end
 
+  it "should apply normalizers to accessor" do
+    # User.normalize()
+  end
+
   it "should combine both method names and procs as normalization methods" do
-    User.normalize_attribute(:email, :with => :downcase) {|v| v.reverse }
+    User.normalize(:email, :with => :downcase) {|v| v.reverse }
     user = User.create(:email => "JOHN@DOE.COM")
 
     user.email.should == "moc.eod@nhoj"
   end
 
   it "should normalize multiple attributes" do
-    User.normalize_attributes :email, :username, :with => :downcase
+    User.normalize :email, :username, :with => :downcase
     user = User.create(:email => "JOHN@DOE.COM", :username => "JOHN")
 
     user.email.should == "john@doe.com"
@@ -66,7 +71,7 @@ describe "Normalize Attributes" do
   end
 
   it "should not apply on associations" do
-    User.normalize_attributes :email, :with => :downcase
+    User.normalize :email, :with => :downcase
     user = User.create(:email => "JOHN@DOE.COM", :username => "JOHN")
 
     expect {
@@ -75,24 +80,33 @@ describe "Normalize Attributes" do
   end
 
   it "should apply default filter on strings" do
-    User.normalize_attributes :email
+    User.normalize :email
     user = User.create(:email => "    \n\t    john@doe.com    \t\t\n\r\n", :username => "john")
 
     user.email.should == "john@doe.com"
   end
 
   it "should apply default filter on arrays" do
-    User.normalize_attributes :preferences
+    User.normalize :preferences
     user = User.create(:preferences => [nil, :games, :music])
     user.preferences.should == [:games, :music]
   end
 
   it "should not apply default filter on unknown objects" do
-    User.normalize_attributes :username
+    User.normalize :username
 
     expect {
       user = User.create(:username => 100)
       user.username.should == 100
+    }.to_not raise_error
+  end
+
+  it "should not apply filter when object do not respond to normalizer" do
+    User.normalize :username, :with => :missing
+
+    expect {
+      user = User.create(:username => nil)
+      user.save
     }.to_not raise_error
   end
 end
