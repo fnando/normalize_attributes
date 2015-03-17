@@ -40,7 +40,7 @@ module NormalizeAttributes
 
         self.class.normalize_options.each do |name, items|
           items.each do |item|
-            apply_normalizers name, *item
+            apply_normalizers name, *item.dup
           end
         end
       end
