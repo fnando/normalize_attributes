@@ -1,62 +1,76 @@
-= Normalize Attributes
+# Normalize Attributes
 
 Sometimes you want to normalize data before saving it to the database like down casing e-mails, removing spaces and so on. This Rails plugin allows you to do so in a simple way.
 
-== Usage
+## Usage
 
 To install:
 
-  gem install normalize_attributes
+    gem install normalize_attributes
 
 Then on your model:
 
-  class User < ActiveRecord::Base
-    normalize :email, :with => :downcase
-  end
+```ruby
+class User < ActiveRecord::Base
+  normalize :email, :with => :downcase
+end
+```
 
-The example above will normalize your <tt>:email</tt> attribute on the <tt>before_save</tt> callback.
+The example above will normalize your `:email` attribute on the `before_save` callback.
 
 You can specify multiple attributes
 
-  normalize :email, :username, :with => :downcase
+```ruby
+normalize :email, :username, :with => :downcase
+```
 
 You can use a block
 
-  normalize :name do |value|
-    value.squish
-  end
+```ruby
+normalize :name do |value|
+  value.squish
+end
+```
 
 You can combine both
 
-  normalize :name, :with => :downcase do |value|
-    value.squish
-  end
+```ruby
+normalize :name, :with => :downcase do |value|
+  value.squish
+end
+```
 
-The <tt>squish</tt> method is the default normalizer for strings. All you need to is specify the attribute:
+The `squish` method is the default normalizer for strings. All you need to is specify the attribute:
 
-  normalize :content
+```ruby
+normalize :content
+```
 
-The <tt>compact</tt> method is the default normalizer for arrays (when using <tt>serialize</tt> method):
+The `compact` method is the default normalizer for arrays (when using `serialize` method):
 
-  class User < ActiveRecord::Base
-    serialize :preferences, Array
-    normalize :preferences
-  end
+```ruby
+class User < ActiveRecord::Base
+  serialize :preferences, Array
+  normalize :preferences
+end
+```
 
-The <tt>normalize</tt> method is aliased as <tt>normalize_attributes</tt>, <tt>normalize_attribute</tt>, <tt>normalize_attr</tt>, and <tt>normalize_attrs</tt>.
+The `normalize` method is aliased as `normalize_attributes`, `normalize_attribute`, `normalize_attr`, and `normalize_attrs`.
 
 You can normalize the attribute before type casting; this is specially useful for normalizing
 dates and numbers.
 
-  class Product
-    normalize(:price, :raw => true) {|v| Money.new(v).to_f}
-  end
+```ruby
+class Product
+  normalize(:price, :raw => true) {|v| Money.new(v).to_f}
+end
+```
 
-== Maintainer
+## Maintainer
 
 * Nando Vieira (http://nandovieira.com.br)
 
-== License:
+## License:
 
 (The MIT License)
 
