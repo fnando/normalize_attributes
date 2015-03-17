@@ -1,6 +1,4 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "normalize_attributes/version"
+require "./lib/normalize_attributes/version"
 
 Gem::Specification.new do |s|
   s.name        = "normalize_attributes"
@@ -17,9 +15,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "activerecord", ">= 3.0.0"
-  s.add_development_dependency "rspec", ">= 2.0.0"
+  s.add_dependency "activerecord"
+  s.add_development_dependency "rspec"
   s.add_development_dependency "sqlite3-ruby"
   s.add_development_dependency "actionpack"
-  s.add_development_dependency "ruby-debug19"
 end
