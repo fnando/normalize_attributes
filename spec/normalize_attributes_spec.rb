@@ -109,4 +109,13 @@ describe "Normalize Attributes" do
       user.save
     }.to_not raise_error
   end
+
+  it "should normalize attributes that are not backed by database columns" do
+    User.normalize :nickname, :with => :downcase
+
+    user = User.new(:username => "john@doe.com")
+    user.nickname = "JOHNNY D"
+    expect{user.save}.to_not raise_error
+    expect(user.nickname).to eq("johnny d")
+  end
 end
