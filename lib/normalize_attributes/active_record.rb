@@ -71,7 +71,11 @@ module NormalizeAttributes
           end
         end
 
-        write_attribute name, value
+        begin
+          write_attribute name, value
+        rescue ActiveModel::MissingAttributeError
+          send :"#{name}=", value
+        end
       end
     end
   end
