@@ -1,11 +1,11 @@
 language: ruby
 sudo: false
-script: bundle exec rspec
 cache: bundler
+notifications:
+  email: false
 rvm:
+  - '2.3.0'
   - '2.2'
-  - '2.1'
-  - '2.0'
 addons:
   code_climate:
     repo_token:

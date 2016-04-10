@@ -1,8 +1,10 @@
 # Normalize Attributes
 
-[![Build Status](https://travis-ci.org/fnando/normalize_attributes.svg)](https://travis-ci.org/fnando/normalize_attributes)
+[![Travis-CI](https://travis-ci.org/fnando/normalize_attributes.png)](https://travis-ci.org/fnando/normalize_attributes)
 [![Code Climate](https://codeclimate.com/github/fnando/normalize_attributes/badges/gpa.svg)](https://codeclimate.com/github/fnando/normalize_attributes)
-[![Test Coverage](https://codeclimate.com/github/fnando/normalize_attributes/badges/coverage.svg)](https://codeclimate.com/github/fnando/normalize_attributes)
+[![Test Coverage](https://codeclimate.com/github/fnando/normalize_attributes/badges/coverage.svg)](https://codeclimate.com/github/fnando/normalize_attributes/coverage)
+[![Gem](https://img.shields.io/gem/v/normalize_attributes.svg)](https://rubygems.org/gems/normalize_attributes)
+[![Gem](https://img.shields.io/gem/dt/normalize_attributes.svg)](https://rubygems.org/gems/normalize_attributes)
 
 Sometimes you want to normalize data before saving it to the database like down casing e-mails, removing spaces and so on. This Rails plugin allows you to do so in a simple way.
 
@@ -72,7 +74,7 @@ end
 
 ## Maintainer
 
-* Nando Vieira (http://nandovieira.com.br)
+* Nando Vieira (http://nandovieira.com)
 
 ## License:
 
