@@ -1,4 +1,48 @@
 module NormalizeAttributes
+  def self.retrieve_value(record, attribute, raw)
+    before_type_cast_method = "#{attribute}_before_type_cast"
+
+    if raw && record.respond_to?(before_type_cast_method)
+      record.send(before_type_cast_method)
+    else
+      record.send(attribute)
+    end
+  end
+
+  def self.retrieve_normalizers(normalizers, value)
+    return normalizers unless normalizers.empty?
+
+    case value
+    when String
+      [:squish]
+    when Array
+      [:compact]
+    else
+      []
+    end
+  end
+
+  def self.apply_normalizers(record, attribute, normalizers, options)
+    value = NormalizeAttributes.retrieve_value(record, attribute, options[:raw])
+    normalizers = NormalizeAttributes.retrieve_normalizers(normalizers, value)
+
+    normalizers.each do |normalizer|
+      if normalizer.respond_to?(:call)
+        value = normalizer.call(value)
+      elsif value.respond_to?(normalizer)
+        value = value.send(normalizer)
+      elsif record.respond_to?(normalizer)
+        value = record.send(normalizer, value)
+      end
+    end
+
+    begin
+      record.write_attribute(attribute, value)
+    rescue ActiveModel::MissingAttributeError
+      record.public_send("#{attribute}=", value)
+    end
+  end
+
   module ActiveRecord
     def self.included(base)
       base.instance_eval do
@@ -35,46 +79,14 @@ module NormalizeAttributes
 
     module InstanceMethods
       private
+
       def normalize_attributes
         return unless self.class.normalize_options
 
-        self.class.normalize_options.each do |name, items|
+        self.class.normalize_options.each do |attribute, items|
           items.each do |item|
-            apply_normalizers name, *item.dup
+            NormalizeAttributes.apply_normalizers(self, attribute, *item.dup)
           end
-        end
-      end
-
-      def apply_normalizers(name, normalizers, options)
-        if options[:raw] && respond_to?("#{name}_before_type_cast")
-          value = send("#{name}_before_type_cast")
-        else
-          value = send(name)
-        end
-
-        if normalizers.empty?
-          case value
-          when String
-            normalizers << :squish
-          when Array
-            normalizers << :compact
-          end
-        end
-
-        normalizers.each do |normalizer|
-          if normalizer.respond_to?(:call)
-            value = normalizer.call(value)
-          elsif value.respond_to?(normalizer)
-            value = value.send(normalizer)
-          elsif respond_to?(normalizer)
-            value = send(normalizer, value)
-          end
-        end
-
-        begin
-          write_attribute name, value
-        rescue ActiveModel::MissingAttributeError
-          send :"#{name}=", value
         end
       end
     end
