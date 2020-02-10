@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "simplecov"
 SimpleCov.start
 
@@ -13,4 +15,4 @@ ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 # Load database schema
 load "schema.rb"
 
-Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f }
+Dir[File.dirname(__FILE__) + "/support/**/*.rb"].sort.each {|f| require f }

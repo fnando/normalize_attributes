@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NormalizeAttributes
   def self.retrieve_value(record, attribute, raw)
     before_type_cast_method = "#{attribute}_before_type_cast"
@@ -37,13 +39,13 @@ module NormalizeAttributes
     end
 
     begin
-      record.write_attribute(attribute, value)
+      record.send(:write_attribute, attribute, value)
     rescue ActiveModel::MissingAttributeError
       record.public_send("#{attribute}=", value)
     end
   end
 
-  module ActiveRecord
+  module Callbacks
     def self.included(base)
       base.instance_eval do
         extend ClassMethods
@@ -66,21 +68,22 @@ module NormalizeAttributes
 
           normalize_options.tap do |o|
             o[attr_name] ||= []
-            o[attr_name] << [[block, options[:with]].flatten.compact, options.except(:with)]
+            o[attr_name] << [
+              [block, options[:with]].flatten.compact,
+              options.except(:with)
+            ]
           end
         end
       end
 
-      alias_method :normalize_attributes, :normalize
-      alias_method :normalize_attribute, :normalize
-      alias_method :normalize_attr, :normalize
-      alias_method :normalize_attrs, :normalize
+      alias normalize_attributes normalize
+      alias normalize_attribute normalize
+      alias normalize_attr normalize
+      alias normalize_attrs normalize
     end
 
     module InstanceMethods
-      private
-
-      def normalize_attributes
+      private def normalize_attributes
         return unless self.class.normalize_options
 
         self.class.normalize_options.each do |attribute, items|

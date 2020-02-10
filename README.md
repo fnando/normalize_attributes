@@ -6,7 +6,9 @@
 [![Gem](https://img.shields.io/gem/v/normalize_attributes.svg)](https://rubygems.org/gems/normalize_attributes)
 [![Gem](https://img.shields.io/gem/dt/normalize_attributes.svg)](https://rubygems.org/gems/normalize_attributes)
 
-Sometimes you want to normalize data before saving it to the database like downcasing e-mails, removing spaces and so on. This Rails plugin allows you to do so in a simple way.
+Sometimes you want to normalize data before saving it to the database like
+downcasing e-mails, removing spaces and so on. This Rails plugin allows you to
+do so in a simple way.
 
 ## Usage
 
@@ -22,7 +24,8 @@ class User < ActiveRecord::Base
 end
 ```
 
-The example above will normalize your `:email` attribute on the `before_save` callback.
+The example above will normalize your `:email` attribute on the `before_save`
+callback.
 
 You can specify multiple attributes
 
@@ -46,13 +49,15 @@ normalize :name, with: :downcase do |value|
 end
 ```
 
-The `squish` method is the default normalizer for strings. All you need to is specify the attribute:
+The `squish` method is the default normalizer for strings. All you need to is
+specify the attribute:
 
 ```ruby
 normalize :content
 ```
 
-The `compact` method is the default normalizer for arrays (when using `serialize` method):
+The `compact` method is the default normalizer for arrays (when using
+`serialize` method):
 
 ```ruby
 class User < ActiveRecord::Base
@@ -61,14 +66,29 @@ class User < ActiveRecord::Base
 end
 ```
 
-The `normalize` method is aliased as `normalize_attributes`, `normalize_attribute`, `normalize_attr`, and `normalize_attrs`.
+The `normalize` method is aliased as `normalize_attributes`,
+`normalize_attribute`, `normalize_attr`, and `normalize_attrs`.
 
-You can normalize the attribute before type casting; this is specially useful for normalizing
-dates and numbers.
+You can normalize the attribute before type casting; this is specially useful
+for normalizing dates and numbers.
 
 ```ruby
 class Product
-  normalize(:price, raw: true) {|v| Money.new(v).to_f}
+  normalize(:price, raw: true) {|v| Money.new(v).to_f }
+end
+```
+
+You can also use it with `ActiveModel::Model` classes.
+
+```ruby
+class UserForm
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+  include ActiveModel::Validations::Callbacks
+  include NormalizeAttributes::Callbacks
+
+  attribute :username
+  normalize :username
 end
 ```
 

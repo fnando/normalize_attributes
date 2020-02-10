@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class NormalizeAttributesTest < Minitest::Test
@@ -51,7 +53,7 @@ class NormalizeAttributesTest < Minitest::Test
   end
 
   test "combine both method names and procs as normalization methods" do
-    User.normalize(:email, with: :downcase) {|v| v.reverse }
+    User.normalize(:email, with: :downcase, &:reverse)
     user = User.create(email: "JOHN@DOE.COM")
 
     assert_equal "moc.eod@nhoj", user.email
@@ -74,7 +76,10 @@ class NormalizeAttributesTest < Minitest::Test
 
   test "apply default filter on strings" do
     User.normalize :email
-    user = User.create(email: "    \n\t    john@doe.com    \t\t\n\r\n", username: "john")
+    user = User.create(
+      email: "    \n\t    john@doe.com    \t\t\n\r\n",
+      username: "john"
+    )
 
     assert_equal "john@doe.com", user.email
   end
@@ -108,5 +113,22 @@ class NormalizeAttributesTest < Minitest::Test
     user.save
 
     assert_equal "johnny d", user.nickname
+  end
+
+  test "normalize ActiveModel::Model objects" do
+    model = Class.new do
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+      include ActiveModel::Validations::Callbacks
+      include NormalizeAttributes::Callbacks
+
+      attribute :username
+      normalize :username
+    end
+
+    instance = model.new(username: "      john      ")
+    instance.valid?
+
+    assert_equal "john", instance.username
   end
 end
