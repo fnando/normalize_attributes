@@ -9,4 +9,10 @@ class User < ActiveRecord::Base
   def normalize_username(username)
     username.downcase
   end
+
+  private
+
+  def private_normalize_username(username)
+    username.upcase
+  end
 end
