@@ -38,11 +38,7 @@ module NormalizeAttributes
       end
     end
 
-    begin
-      record.send(:write_attribute, attribute, value)
-    rescue ActiveModel::MissingAttributeError
-      record.public_send("#{attribute}=", value)
-    end
+    record.public_send("#{attribute}=", value)
   end
 
   module Callbacks
