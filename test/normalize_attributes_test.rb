@@ -98,11 +98,10 @@ class NormalizeAttributesTest < Minitest::Test
     assert_equal "100", user.username
   end
 
-  test "don't apply filter when object do not respond to normalizer" do
+  test "raises an error when object do not respond to normalizer" do
     User.normalize :username, with: :missing
 
-    user = User.create(username: nil)
-    user.save
+    assert_raises(RuntimeError) { User.create(username: nil) }
   end
 
   test "normalize attributes that are not backed by database columns" do
