@@ -27,7 +27,7 @@ jobs:
           - gemfiles/rails_6_0.gemfile
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.4.0
 
       - uses: actions/cache@v2
         with:
