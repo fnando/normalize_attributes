@@ -35,6 +35,8 @@ module NormalizeAttributes
         value = value.send(normalizer)
       elsif record.respond_to?(normalizer)
         value = record.send(normalizer, value)
+      else
+        raise "Unknown normalizer #{normalizer.inspect}"
       end
     end
 
