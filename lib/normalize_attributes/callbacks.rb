@@ -33,7 +33,7 @@ module NormalizeAttributes
         value = normalizer.call(value)
       elsif value.respond_to?(normalizer)
         value = value.send(normalizer)
-      elsif record.respond_to?(normalizer)
+      elsif record.respond_to?(normalizer, true)
         value = record.send(normalizer, value)
       else
         raise "Unknown normalizer #{normalizer.inspect}"

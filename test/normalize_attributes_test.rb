@@ -43,6 +43,13 @@ class NormalizeAttributesTest < Minitest::Test
     assert_equal "johndoe", user.username
   end
 
+  test "apply private instance method" do
+    User.normalize(:username, with: :private_normalize_username)
+    user = User.create(username: "johndoe")
+
+    assert_equal "JOHNDOE", user.username
+  end
+
   test "use value before type casting" do
     User.normalize(:age, raw: true) do |v|
       v.to_f * 10
