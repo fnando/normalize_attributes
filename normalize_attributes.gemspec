@@ -12,6 +12,8 @@ Gem::Specification.new do |s|
   s.summary     = "Normalize ActiveRecord attributes"
   s.description = s.summary
   s.license     = "MIT"
+  s.required_ruby_version = ">= 2.7"
+  s.metadata = {"rubygems_mfa_required" => "true"}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -25,6 +27,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "bundler"
   s.add_development_dependency "minitest-utils"
   s.add_development_dependency "rake"
+  s.add_development_dependency "rubocop"
+  s.add_development_dependency "rubocop-fnando"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "sqlite3"
 end

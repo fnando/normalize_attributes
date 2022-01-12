@@ -15,4 +15,4 @@ ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 # Load database schema
 load "schema.rb"
 
-Dir[File.dirname(__FILE__) + "/support/**/*.rb"].sort.each {|f| require f }
+Dir["#{__dir__}/support/**/*.rb"].sort.each {|f| require f }

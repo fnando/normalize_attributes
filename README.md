@@ -1,8 +1,7 @@
 # Normalize Attributes
 
-[![Travis-CI](https://travis-ci.org/fnando/normalize_attributes.svg)](https://travis-ci.org/fnando/normalize_attributes)
+[![Tests](https://github.com/fnando/normalize_attributes/workflows/ruby-tests/badge.svg)](https://github.com/fnando/normalize_attributes)
 [![Code Climate](https://codeclimate.com/github/fnando/normalize_attributes/badges/gpa.svg)](https://codeclimate.com/github/fnando/normalize_attributes)
-[![Test Coverage](https://codeclimate.com/github/fnando/normalize_attributes/badges/coverage.svg)](https://codeclimate.com/github/fnando/normalize_attributes/coverage)
 [![Gem](https://img.shields.io/gem/v/normalize_attributes.svg)](https://rubygems.org/gems/normalize_attributes)
 [![Gem](https://img.shields.io/gem/dt/normalize_attributes.svg)](https://rubygems.org/gems/normalize_attributes)
 
@@ -94,27 +93,25 @@ end
 
 ## Maintainer
 
-* Nando Vieira (http://nandovieira.com)
+- [Nando Vieira](https://github.com/fnando)
 
-## License:
+## Contributors
 
-(The MIT License)
+- https://github.com/fnando/normalize_attributes/contributors
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+## Contributing
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+For more details about how to contribute, please read
+https://github.com/fnando/normalize_attributes/blob/main/CONTRIBUTING.md.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## License
+
+The gem is available as open source under the terms of the
+[MIT License](https://opensource.org/licenses/MIT). A copy of the license can be
+found at https://github.com/fnando/normalize_attributes/blob/main/LICENSE.md.
+
+## Code of Conduct
+
+Everyone interacting in the normalize_attributes project's codebases, issue
+trackers, chat rooms and mailing lists is expected to follow the
+[code of conduct](https://github.com/fnando/normalize_attributes/blob/main/CODE_OF_CONDUCT.md).
