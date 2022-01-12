@@ -11,7 +11,7 @@ Prefix your message with one of the following:
 - [Security] in case of vulnerabilities.
 -->
 
-## Unreleased
+## v0.4.0 - 2022-01-12
 
 - [Added] Allow using private methods as normalizers.
-- [Fixed] Issues with latest ActiveSupport.
+- [Fixed] Fixed errors raised by latest versions of ActiveModel.
